@@ -1,31 +1,26 @@
-const express = require("express");
+const express= require("express");
 const dotenv = require("dotenv");
-const router=require("./routes/booksRoute")
+const connectDB =require("./config/connectDB")
+const userRoute = require("./routes/userRoute")
+const morgan = require("morgan")
 
-dotenv.config();
 const app = express();
-// middlewares
-app.use(logger);
+dotenv.config();
+connectDB();
 
-app.use(express.json());
+//middewares
+app.use(express.json())
+app.use("/api/users",userRoute)
+app.use(morgan("dev"))
 
-
-
-//route
-
-app.get("/", (req, res) => {
-  res.send("<h1>Welcome our library stockpile</h1>");
-});
-
-// get all books
-
-app.get("/books", (req, res) => {
-  res.json(books);
-});
-
-
-
+app.get("/",(req,res) => {
+    res.send("welcome to our school portal")
+ 
+})
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`server is running on ${PORT}`));
+app.listen(PORT, () => {
+     console.log(`server is running on ${PORT}`)
+})
+
